@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ओ सदानीरा - वस्तुनिष्ठ प्रश्नोत्तरी</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .ad-container {
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        h1, h2 {
+            color: #1a73e8;
+            text-align: center;
+            border-bottom: 2px solid #1a73e8;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        #question-area {
+            min-height: 150px;
+            margin-bottom: 20px;
+        }
+
+        #question-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .options label:hover {
+            background-color: #e8f0fe;
+        }
+        
+        .options input[type="radio"]:checked + span {
+            font-weight: bold;
+            color: #1a73e8;
+        }
+        
+        .options label.selected {
+             background-color: #e8f0fe;
+             border-color: #1a73e8;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 12px;
+        }
+        
+        #navigation-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #1a73e8;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .nav-btn:hover {
+            background-color: #155ab3;
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn#prev-btn {
+            background-color: #6c757d;
+        }
+        .nav-btn#prev-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #welcome-container, #results-container {
+            text-align: center;
+        }
+
+        #quiz-container, #results-container {
+            display: none;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        #progress-indicator {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        #score-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .summary-card {
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 130px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .summary-label {
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .summary-count {
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        .correct-summary {
+            background-color: #e8f5e9;
+            border-bottom: 4px solid #4caf50;
+        }
+        .correct-summary .summary-count {
+            color: #4caf50;
+        }
+
+        .incorrect-summary {
+            background-color: #ffebee;
+            border-bottom: 4px solid #f44336;
+        }
+        .incorrect-summary .summary-count {
+            color: #f44336;
+        }
+
+        .unanswered-summary {
+            background-color: #f5f5f5;
+            border-bottom: 4px solid #6c757d;
+        }
+        .unanswered-summary .summary-count {
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- ====== Top Ad Slot ====== -->
+    <div class="ad-container">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '4b505c9273cf9161c278efee028f35e2',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/4b505c9273cf9161c278efee028f35e2/invoke.js"></script>
+    </div>
+
+    <!-- ====== Main Quiz Container ====== -->
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome-container">
+            <h1>ओ सदानीरा - वस्तुनिष्ठ प्रश्नोत्तरी</h1>
+            <p>टेस्ट शुरू करने से पहले कृपया अपना नाम दर्ज करें।</p>
+            <input type="text" id="userName" placeholder="अपना नाम यहाँ लिखें">
+            <button class="nav-btn" id="start-btn" style="width: 100%;">क्विज़ शुरू करें</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-container">
+            <h2>कक्षा 12 | हिंदी पाठ - 7 "ओ सदानीरा"</h2>
+            <div id="question-area">
+                <!-- Current Question will be loaded here -->
+            </div>
+
+            <div id="navigation-area">
+                <button class="nav-btn" id="prev-btn">पिछला</button>
+                <span id="progress-indicator"></span>
+                <button class="nav-btn" id="next-btn">अगला</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-container">
+            <h2 id="result-heading">आपका परिणाम</h2>
+            <p id="score-text" style="font-size: 1.5em; font-weight: bold; text-align: center;"></p>
+            <div id="score-breakdown"></div>
+            <button class="nav-btn" id="retry-btn" style="margin-top:20px; width: 100%;">फिर से प्रयास करें</button>
+        </div>
+    </div>
+    
+    <!-- ====== Bottom Ad Slot ====== -->
+    <div class="ad-container">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '4b505c9273cf9161c278efee028f35e2',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/4b505c9273cf9161c278efee028f35e2/invoke.js"></script>
+    </div>
+
+    <script>
+        const quizData = [
+            // Questions from the image
+            { question: "'ओ सदानीरा' शीर्षक पाठ के लेखक हैं?", options: ["मोहन राकेश", "उदय प्रकाश", "जगदीशचन्द्र माथुर", "नामवर सिंह"], answer: "C" },
+            { question: "इनमें से कौन-सी रचना जगदीशचन्द्र माथुर की है?", options: ["बातचीत", "ओ सदानीरा", "तिरिछ", "हँसते हुए मेरा अकेलापन"], answer: "B" },
+            { question: "'बहुजन-सम्प्रेषण के माध्यम' पुस्तक किसने लिखी है?", options: ["जय प्रकाश नारायण", "जगदीशचन्द्र माथुर", "मलयज", "मोहन राकेश"], answer: "B" },
+            { question: "'ओ सदानीरा' किस विधा के अन्तर्गत है?", options: ["नाटक", "निबन्ध", "आत्मकथा", "कहानी"], answer: "B" },
+            { question: "'ओ सदानीरा' शीर्षक निबंध में वर्णित मन कैसे ताल हैं?", options: ["गहरे", "छोटे और विशाल", "उथले और छिछले", "गहरे और विशाल"], answer: "D" },
+            { question: "'ओ सदानीरा' शीर्षक पाठ के अनुसार, सन् 1962 की बाढ़ का दृश्य जिन्होंने देखा है, उन्हें 'रामचरितमानस' में किसके क्रोध रूपी नदी की बाढ़ याद आई होगी?", options: ["लक्ष्मण के", "भरत के", "कैकेयी के", "राम के"], answer: "C" },
+            { question: "'ओ सदानीरा' पाठ के अनुसार, गाँधी जी ने 'आश्रम विद्यालय' कहाँ स्थापित किया था?", options: ["पाटलिपुत्र, नालंदा में", "सासाराम, भभुआ में", "वैशाली, राजगीर में", "बड़हरवा, मधुबन और भितिहरवा में"], answer: "D" },
+            { question: "धाँगड़ों को 18वीं शताब्दी के अंत में किस कार्य के लिए लाया गया था?", options: ["नील की खेती के लिए", "मखाना की खेती के लिए", "मक्का की खेती के लिए", "इनमें से कोई नहीं"], answer: "A" },
+            { question: "गंडक नदी की चर्चा किस शीर्षक पाठ में है?", options: ["ओ सदानीरा", "रोज", "अर्धनारीश्वर", "तिरिछ"], answer: "A" },
+            
+            // Additional 41 Questions
+            { question: "जगदीशचन्द्र माथुर का जन्म कब हुआ था?", options: ["16 जुलाई, 1917", "17 जुलाई, 1918", "18 जुलाई, 1919", "19 जुलाई, 1920"], answer: "A" },
+            { question: "जगदीशचन्द्र माथुर का निधन कब हुआ था?", options: ["12 मई, 1976", "13 मई, 1977", "14 मई, 1978", "15 मई, 1979"], answer: "C" },
+            { question: "माथुर जी का जन्म स्थान कहाँ है?", options: ["शाहजहाँपुर, उत्तर प्रदेश", "इलाहाबाद, उत्तर प्रदेश", "लखनऊ, उत्तर प्रदेश", "आगरा, उत्तर प्रदेश"], answer: "A" },
+            { question: "चंपारण क्षेत्र में बाढ़ का मुख्य कारण क्या है?", options: ["नदियों का तेज बहाव", "जंगलों का कटना", "अत्यधिक वर्षा", "नहरों का निर्माण"], answer: "B" },
+            { question: "पुंडलीक जी कौन थे?", options: ["गाँव के मुखिया", "शिक्षक", "डॉक्टर", "राजनीतिज्ञ"], answer: "B" },
+            { question: "थारू शब्द किस शब्द से विकसित माना जाता है?", options: ["थार", "स्थल", "मरुस्थल", "जंगल"], answer: "A" },
+            { question: "धाँगड़ शब्द का ओराँव भाषा में क्या अर्थ है?", options: ["मजदूर", "किसान", "भाड़े का मजदूर", "सिपाही"], answer: "C" },
+            { question: "वैशाली महोत्सव का बीजारोपण किसने किया?", options: ["अज्ञेय ने", "जगदीशचन्द्र माथुर ने", "दिनकर ने", "नागार्जुन ने"], answer: "B" },
+            { question: "निम्नलिखित में कौन-सा नाटक जगदीशचन्द्र माथुर द्वारा रचित है?", options: ["कोणार्क", "शारदीया", "पहला राजा", "ये सभी"], answer: "D" },
+            { question: "'दस तस्वीरें' के रचनाकार कौन हैं?", options: ["रामवृक्ष बेनीपुरी", "जगदीशचन्द्र माथुर", "देवेंद्र सत्यार्थी", "महादेवी वर्मा"], answer: "B" },
+            { question: "'बोलते क्षण' किस साहित्यिक विधा की कृति है?", options: ["निबंध", "कहानी", "संस्मरण", "आलोचना"], answer: "A" },
+            { question: "'ओ सदानीरा' किसको निमित्त बनाकर लिखा गया है?", options: ["गंगा", "गंडक", "यमुना", "महानदी"], answer: "B" },
+            { question: "कर्नाट वंश के राजा हरिसिंह को किसका मुकाबला करना पड़ा था?", options: ["गयासुद्दीन तुगलक", "नादिरशाह", "अलाउद्दीन खिलजी", "कुतुबुद्दीन ऐबक"], answer: "A" },
+            { question: "चंपारण में गाँधीजी के चमत्कार की कथा किसने लिखी है?", options: ["महात्मा गाँधी", "राजेंद्र प्रसाद", "राधाकृष्ण", "सरदार पटेल"], answer: "B" },
+            { question: "गाँधीजी चंपारण कब आए?", options: ["अप्रैल 1918 में", "अप्रैल 1920 में", "20 जून 1917 में", "अप्रैल 1917 में"], answer: "D" },
+            { question: "तिनकठिया प्रथा का संबंध किससे है?", options: ["ईख से", "तम्बाकू से", "मसाला से", "नील से"], answer: "D" },
+            { question: "'सरैयामन' ताल का जल कैसा है?", options: ["चंचल", "स्थिर", "गहरा", "गंदा"], answer: "B" },
+            { question: "रामपुरवा कहाँ स्थित है?", options: ["भितिहरवा के पास", "नवगछिया के पास", "राँची के पास", "इलाहाबाद के पास"], answer: "A" },
+            { question: "आम्रपाली (अंबपाली) ने तथागत को क्या सौंपा था?", options: ["कदलीवन", "आम्रवन", "दस हजार स्वर्ण मुद्राएँ", "अपना भवन"], answer: "B" },
+            { question: "मठ के महंत ने गाँधीजी को कहाँ शरण दी?", options: ["एक जामुन के पेड़ के नीचे", "अपने मठ में", "एक झोपड़ी में", "एक महुए के पेड़ के नीचे"], answer: "D" },
+            { question: "माथुर जी किस राज्य के शिक्षा सचिव नियुक्त हुए थे?", options: ["मध्य प्रदेश", "आंध्र प्रदेश", "बिहार", "उत्तर प्रदेश"], answer: "C" },
+            { question: "गंडक नदी का जल सदियों से कैसा रहा है?", options: ["शांत रहा है", "चंचल रहा है", "गर्म रहा है", "ठंडा रहा है"], answer: "B" },
+            { question: "'शारदीया' के लेखक कौन हैं?", options: ["जगदीशचन्द्र माथुर", "निर्मल वर्मा", "मोहन राकेश", "अज्ञेय"], answer: "A" },
+            { question: "माथुर जी को 'विद्यावारिधि' की उपाधि से कहाँ विभूषित किया गया?", options: ["पटना विश्वविद्यालय", "भागलपुर विश्वविद्यालय", "मगध विश्वविद्यालय", "बिहार विश्वविद्यालय"], answer: "D" },
+            { question: "भितिहरवा आश्रम के शिक्षक कौन थे?", options: ["गाँधीजी के मित्र", "गाँधीजी के शिष्य", "गाँधीजी और उनके साथी", "पुंडलीक जी और उनकी पत्नी"], answer: "D" },
+            { question: "थारुओं की कला कैसी होती है?", options: ["जटिल", "आधुनिक", "गृह-निर्माण कला", "सौंदर्यपूर्ण"], answer: "C" },
+            { question: "नीलहे किसानों पर अंग्रेज अधिकारियों का अत्याचार किस नाटक में वर्णित है?", options: ["कोणार्क", "भारत दुर्दशा", "नील दर्पण", "अंधेर नगरी"], answer: "C" },
+            { question: "माथुर जी किस पत्रिका के संपादन से जुड़े थे?", options: ["सरस्वती", "सारिका", "धर्मयुग", "आजकल"], answer: "B" },
+            { question: "किस नदी को 'नारायणी' तथा 'महागंडक' भी कहा जाता है?", options: ["कोसी", "गंडक", "सोन", "पुनपुन"], answer: "B" },
+            { question: "अंग्रेज ठेकेदारों ने किस चीज की खेती का विस्तार किया?", options: ["दलहन", "नील", "गेहूँ", "तिलहन"], answer: "B" },
+            { question: "'राजा हरिसिंह देव' किस वंश के शासक थे?", options: ["गुप्त वंश", "मौर्य वंश", "कर्नाट वंश", "शुंग वंश"], answer: "C" },
+            { question: "गांधीजी के अनुसार, चंपारण में शिक्षा व्यवस्था का मुख्य उद्देश्य क्या था?", options: ["केवल साक्षरता", "नौकरी के लिए तैयारी", "चरित्र निर्माण और निर्भयता", "अंग्रेजी शिक्षा देना"], answer: "C" },
+            { question: "पुंडलीक जी ने 'निर्भयता' का पाठ किससे सीखा था?", options: ["अपने गुरु से", "अपनी माता से", "गांधीजी से", "गोखले से"], answer: "C" },
+            { question: "'ओ मेरे सपने' क्या है?", options: ["उपन्यास", "कहानी", "नाटक", "कविता"], answer: "C" },
+            { question: "पाठ के अनुसार, चौदहवीं सदी में चंपारण पर किसका आक्रमण हुआ था?", options: ["मुगलों का", "तुगलकों का", "खिलजियों का", "अंग्रेजों का"], answer: "B" },
+            { question: "पंडई नदी कहाँ तक जाती है?", options: ["भिखनाठोरी", "रामपुरवा", "गया", "मोतिहारी"], answer: "A" },
+            { question: "बरगद के पेड़ों के घने जंगल कहाँ मिलते थे?", options: ["भितिहरवा में", "चंपारण के पश्चिमी छोर पर", "रामपुरवा में", "बड़हरवा में"], answer: "B" },
+            { question: "लेखक के अनुसार, वसुंधराभोगी मानव और धर्मांध मानव एक ही सिक्के के दो पहलू हैं। इसका क्या अर्थ है?", options: ["दोनों अच्छे हैं", "दोनों प्रकृति का सम्मान करते हैं", "दोनों विध्वंसक हैं", "दोनों में कोई संबंध नहीं है"], answer: "C" },
+            { question: "माथुर जी को कौन-सा पुरस्कार नहीं मिला था?", options: ["पद्म भूषण", "कालिदास अवार्ड", "बिहार राजभाषा पुरस्कार", "ज्ञानपीठ पुरस्कार"], answer: "D" },
+            { question: "'परंपराशील नाट्य' किसकी रचना है?", options: ["मोहन राकेश", "नामवर सिंह", "जगदीशचन्द्र माथुर", "रामविलास शर्मा"], answer: "C" },
+            { question: "वर्तमान में चंपारण की भूमि कैसी हो गई है?", options: ["हरी-भरी", "प्राचीन गौरव को खो चुकी", "अधिक उपजाऊ", "औद्योगिक"], answer: "B" }
+        ];
+
+        // --- DOM Element References ---
+        const welcomeContainer = document.getElementById('welcome-container');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        
+        const startBtn = document.getElementById('start-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const retryBtn = document.getElementById('retry-btn');
+
+        const questionArea = document.getElementById('question-area');
+        const scoreText = document.getElementById('score-text');
+        const scoreBreakdown = document.getElementById('score-breakdown');
+        const userNameInput = document.getElementById('userName');
+        const resultHeading = document.getElementById('result-heading');
+        const progressIndicator = document.getElementById('progress-indicator');
+        
+        // --- State Variables ---
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let currentUserName = '';
+
+        // --- Functions ---
+        function showQuestion(index) {
+            const questionData = quizData[index];
+            let questionHTML = `<div id="question-text">${index + 1}. ${questionData.question}</div>
+                                <div class="options">`;
+            
+            questionData.options.forEach((option, i) => {
+                const optionLetter = String.fromCharCode(65 + i);
+                const isChecked = userAnswers[index] === optionLetter ? 'checked' : '';
+                questionHTML += `<label>
+                    <input type="radio" name="q${index}" value="${optionLetter}" ${isChecked}>
+                    <span>(${optionLetter}) ${option}</span>
+                </label>`;
+            });
+            
+            questionHTML += `</div>`;
+            questionArea.innerHTML = questionHTML;
+
+            progressIndicator.innerText = `प्रश्न ${index + 1} / ${quizData.length}`;
+            prevBtn.classList.toggle('hidden', index === 0);
+            nextBtn.innerText = (index === quizData.length - 1) ? 'क्विज़ सबमिट करें' : 'अगला';
+            
+            document.querySelectorAll(`input[name="q${index}"]`).forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    document.querySelectorAll(`#question-area .options label`).forEach(label => label.classList.remove('selected'));
+                    e.target.parentElement.classList.add('selected');
+                });
+            });
+
+            if (userAnswers[index]) {
+                const selectedRadio = document.querySelector(`input[name="q${index}"][value="${userAnswers[index]}"]`);
+                if (selectedRadio) selectedRadio.parentElement.classList.add('selected');
+            }
+        }
+        
+        function saveAnswer() {
+            const selectedOption = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
+            if (selectedOption) userAnswers[currentQuestionIndex] = selectedOption.value;
+        }
+
+        function startQuiz() {
+            currentUserName = userNameInput.value.trim();
+            if (currentUserName === "") {
+                alert("कृपया अपना नाम दर्ज करें!");
+                return;
+            }
+            
+            currentQuestionIndex = 0;
+            userAnswers = new Array(quizData.length).fill(null);
+            
+            welcomeContainer.style.display = 'none';
+            resultsContainer.style.display = 'none';
+            quizContainer.style.display = 'block';
+            
+            showQuestion(currentQuestionIndex);
+        }
+
+        function showResults() {
+            let score = 0;
+            let unansweredCount = 0;
+
+            quizData.forEach((item, index) => {
+                if (userAnswers[index] === null) {
+                    unansweredCount++;
+                } else if (userAnswers[index] === item.answer) {
+                    score++;
+                }
+            });
+
+            const incorrectCount = quizData.length - score - unansweredCount;
+
+            resultHeading.innerText = `बहुत बढ़िया, ${currentUserName}!`;
+            scoreText.innerText = `आपका कुल स्कोर: ${quizData.length} में से ${score}`;
+            
+            scoreBreakdown.innerHTML = `
+                <div class="summary-card correct-summary">
+                    <span class="summary-label">सही जवाब</span>
+                    <span class="summary-count">✓ ${score}</span>
+                </div>
+                <div class="summary-card incorrect-summary">
+                    <span class="summary-label">गलत जवाब</span>
+                    <span class="summary-count">✗ ${incorrectCount}</span>
+                </div>
+                <div class="summary-card unanswered-summary">
+                    <span class="summary-label">छोड़े गए</span>
+                    <span class="summary-count">? ${unansweredCount}</span>
+                </div>
+            `;
+
+            quizContainer.style.display = 'none';
+            resultsContainer.style.display = 'block';
+        }
+
+        // --- Event Listeners ---
+        startBtn.addEventListener('click', startQuiz);
+
+        nextBtn.addEventListener('click', () => {
+            saveAnswer();
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                showQuestion(currentQuestionIndex);
+            } else {
+                showResults();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            saveAnswer();
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+            }
+        });
+
+        retryBtn.addEventListener('click', () => {
+            resultsContainer.style.display = 'none';
+            welcomeContainer.style.display = 'block';
+            userNameInput.value = '';
+        });
+
+    </script>
+</body>
+</html>
